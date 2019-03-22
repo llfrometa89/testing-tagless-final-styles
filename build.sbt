@@ -15,5 +15,5 @@ lazy val V = new {
 libraryDependencies ++= Seq(
   "org.typelevel"                  %% "cats-core"        % V.cats,
   "org.typelevel"                  %% "cats-effect"      % V.catsEffect,
-  "org.pure4s"                     %% "logger4s-cats"    % V.logger4s,
+//  "org.pure4s"                     %% "logger4s-cats"    % V.logger4s,
 )
