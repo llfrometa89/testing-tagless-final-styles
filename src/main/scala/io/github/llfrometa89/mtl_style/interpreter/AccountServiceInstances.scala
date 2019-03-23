@@ -13,8 +13,10 @@ import monocle.std.option._
 
 trait AccountServiceInstances {
 
-  implicit def instance[F[_]: Sync: AccountRepository] =
+  implicit def instance[F[_]: Sync: AccountRepository]: AccountService[F] =
     new AccountService[F] {
+
+      implicit val monad: Monad[F] = Sync[F]
 
       def open(no: String, name: String, rate: Option[BigDecimal], accountType: AccountType): F[Account] = {
 
@@ -49,10 +51,24 @@ trait AccountServiceInstances {
         } yield account
       }
 
-      def debit(no: String, amount: Amount): F[Account]  = ???
-      def credit(no: String, amount: Amount): F[Account] = ???
+      def debit(no: String, amount: Amount): F[Account] =
+        for {
+          maybeAccount        <- AccountRepository[F].findByNo(no)
+          maybeAccountUpdated <- maybeAccount.map(acc => updateBalance(acc, -amount)).pure[F]
+          account             <- maybeAccountUpdated.mapOrElse(AccountRepository[F].save, Sync[F].raiseError(NotFoundAccount(no)))
+        } yield account
 
-      implicit val monad: Monad[F] = Sync[F]
+      def credit(no: String, amount: Amount): F[Account] =
+        for {
+          maybeAccount        <- AccountRepository[F].findByNo(no)
+          maybeAccountUpdated <- maybeAccount.map(acc => updateBalance(acc, amount)).pure[F]
+          account             <- maybeAccountUpdated.mapOrElse(AccountRepository[F].save, Sync[F].raiseError(NotFoundAccount(no)))
+        } yield account
+
+      private def updateBalance(account: Account, amount: Amount): Account = account match {
+        case ca: CheckingAccount => CheckingAccount.balance.set(Balance(ca.balance.amount + amount))(ca)
+        case sa: SavingsAccount  => SavingsAccount.balance.set(Balance(sa.balance.amount + amount))(sa)
+      }
     }
 }
 

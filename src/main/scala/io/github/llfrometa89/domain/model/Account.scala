@@ -45,4 +45,5 @@ object Account {
     }
     Right(account) //TODO Replace for real validation result
   }
+
 }
