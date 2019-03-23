@@ -1,4 +1,4 @@
-package io.github.llfrometa89.mtl_style.domain
+package io.github.llfrometa89.domain
 
 import java.util.{Calendar, Date}
 
