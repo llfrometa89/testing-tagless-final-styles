@@ -13,7 +13,6 @@ trait AccountService[F[_]] {
   def close(no: String, closeDate: Date): F[Account]
   def debit(no: String, amount: Amount): F[Account]
   def credit(no: String, amount: Amount): F[Account]
-  def transfer(from: Account, to: Account, amount: Amount): F[(Account, Account)] = transfer(from.no, to.no, amount)
   def transfer(from: String, to: String, amount: Amount): F[(Account, Account)] =
     for {
       a <- debit(from, amount)

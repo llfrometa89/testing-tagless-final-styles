@@ -1,4 +1,4 @@
-package io.github.llfrometa89.mtl_style.interpreter
+package io.github.llfrometa89.mtl_style.instances
 
 import java.util.Date
 import cats.Monad
