@@ -1,4 +1,4 @@
-package io.github.llfrometa89.common_style.interpreters
+package io.github.llfrometa89.interpreters.common_style
 
 import cats.Applicative
 import cats.implicits._

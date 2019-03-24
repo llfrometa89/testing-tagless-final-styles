@@ -1,6 +1,7 @@
-package io.github.llfrometa89.mtl_style.interpreters
+package io.github.llfrometa89.interpreters.mtl_style
 
 import java.util.Date
+
 import cats.Monad
 import cats.effect.Sync
 import cats.implicits._

@@ -2,12 +2,12 @@ package io.github.llfrometa89
 
 import cats.effect.{ExitCode, IO, IOApp, Sync}
 import cats.implicits._
-import io.github.llfrometa89.common_style.interpreters.{AccountInMemoryRepository, AccountServiceImpl}
 import io.github.llfrometa89.domain.model.Savings
 import io.github.llfrometa89.domain.repositories.AccountRepository
 import io.github.llfrometa89.domain.services.AccountService
 import io.github.llfrometa89.domain.utils.Generator
 import io.github.llfrometa89.domain.utils.GeneratorInstances._
+import io.github.llfrometa89.interpreters.common_style.{AccountInMemoryRepository, AccountServiceImpl}
 
 object MainCommonStyle extends IOApp {
 
