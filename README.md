@@ -5,7 +5,7 @@
 Tagless Final algebras and Streaming
 - https://typelevel.org/blog/2018/05/09/tagless-final-streaming.html
 
-> Final thoughts
+> **Final thoughts**
 > I think we got quite far with all these abstractions, giving us the chance to write clean and elegant code in a pure functional programming style, and there’s even more! Other topics worth mentioning that might require a blog post on their own are:
 
 > **Dependency Injection**
