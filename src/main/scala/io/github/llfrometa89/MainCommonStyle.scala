@@ -2,15 +2,17 @@ package io.github.llfrometa89
 
 import cats.effect.{ExitCode, IO, IOApp, Sync}
 import cats.implicits._
+import io.github.llfrometa89.common_style.interpreters.{AccountInMemoryRepository, AccountServiceImpl}
 import io.github.llfrometa89.domain.model.Savings
 import io.github.llfrometa89.domain.repositories.AccountRepository
 import io.github.llfrometa89.domain.services.AccountService
 import io.github.llfrometa89.domain.utils.Generator
-import io.github.llfrometa89.implicits._
+import io.github.llfrometa89.domain.utils.GeneratorInstances._
 
-object Main extends IOApp {
+object MainCommonStyle extends IOApp {
 
-  def programMtl[F[_]: Sync](implicit G: Generator[String]): F[ExitCode] =
+  def program[F[_]: Sync: AccountService: AccountRepository](implicit G: Generator[String]): F[ExitCode] = {
+
     for {
       accountNoL <- G.generate.pure[F]
       accountNoM <- G.generate.pure[F]
@@ -21,7 +23,12 @@ object Main extends IOApp {
       _          <- AccountService[F].transfer(accountNoL, accountNoM, 50)
       _          <- Sync[F].delay(println(s"accounts = ${AccountRepository[F].findAll}"))
     } yield ExitCode.Success
+  }
 
-  def run(args: List[String]): IO[ExitCode] = programMtl[IO]
+  def run(args: List[String]): IO[ExitCode] = {
+    implicit val accountRepository: AccountRepository[IO] = new AccountInMemoryRepository[IO]
+    implicit val accountService: AccountService[IO]       = new AccountServiceImpl[IO](accountRepository)
+    program[IO]
+  }
 
 }
