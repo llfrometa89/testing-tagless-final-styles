@@ -8,7 +8,7 @@ import io.github.llfrometa89.domain.model._
 import io.github.llfrometa89.domain.repositories.AccountRepository
 import io.github.llfrometa89.domain.services.AccountMessage.{AlreadyExistAccount, NotFoundAccount}
 import io.github.llfrometa89.domain.services.AccountService
-import io.github.llfrometa89.implicits._
+import io.github.llfrometa89.implicits.syntax.all._
 import monocle.std.option._
 
 trait AccountServiceInstances {

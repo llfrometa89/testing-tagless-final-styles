@@ -10,3 +10,5 @@ trait GeneratorInstances {
   }
 
 }
+
+object GeneratorInstances extends GeneratorInstances
