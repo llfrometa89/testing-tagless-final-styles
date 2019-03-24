@@ -11,8 +11,7 @@ import io.github.llfrometa89.interpreters.common_style.{AccountInMemoryRepositor
 
 object MainCommonStyle extends IOApp {
 
-  def program[F[_]: Sync: AccountService: AccountRepository](implicit G: Generator[String]): F[ExitCode] = {
-
+  def program[F[_]: Sync: AccountService: AccountRepository](implicit G: Generator[String]): F[ExitCode] =
     for {
       accountNoL <- G.generate.pure[F]
       accountNoM <- G.generate.pure[F]
@@ -23,7 +22,6 @@ object MainCommonStyle extends IOApp {
       _          <- AccountService[F].transfer(accountNoL, accountNoM, 50)
       _          <- Sync[F].delay(println(s"accounts = ${AccountRepository[F].findAll}"))
     } yield ExitCode.Success
-  }
 
   def run(args: List[String]): IO[ExitCode] = {
     implicit val accountRepository: AccountRepository[IO] = new AccountInMemoryRepository[IO]
