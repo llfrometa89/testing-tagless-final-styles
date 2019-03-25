@@ -7,13 +7,11 @@ import io.github.llfrometa89.domain.model._
 
 trait AccountService[F[_]] {
 
-  implicit val monad: Monad[F]
-
   def open(no: String, name: String, rate: Option[BigDecimal], accountType: AccountType): F[Account]
   def close(no: String, closeDate: Date): F[Account]
   def debit(no: String, amount: Amount): F[Account]
   def credit(no: String, amount: Amount): F[Account]
-  def transfer(from: String, to: String, amount: Amount): F[(Account, Account)] =
+  def transfer(from: String, to: String, amount: Amount)(implicit M: Monad[F]): F[(Account, Account)] =
     for {
       a <- debit(from, amount)
       b <- credit(to, amount)

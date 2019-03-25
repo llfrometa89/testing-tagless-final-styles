@@ -17,8 +17,6 @@ trait AccountServiceInstances {
   implicit def instance[F[_]: Sync: AccountRepository]: AccountService[F] =
     new AccountService[F] {
 
-      implicit val monad: Monad[F] = Sync[F]
-
       def open(no: String, name: String, rate: Option[BigDecimal], accountType: AccountType): F[Account] = {
 
         def validate: Either[Throwable, Account] = Account.validate(no, name, rate, accountType)
